@@ -64,3 +64,6 @@ target/
 bin/
 include/
 pip-selfcheck.json
+share/
+media
+!media/.gitkeep
