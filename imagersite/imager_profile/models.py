@@ -24,6 +24,19 @@ class ImagerProfile(models.Model):
         ('A', 'Architectural Photography')
     )
 
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                related_name='profile', null=False)
+    camera = models.CharField(max_length=255, default='')
+    friends = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                     related_name='friends_of')
+    photography_type = models.CharField(max_length=1,
+                                        choices=PHOTO_TYPE,
+                                        default='N')
+    location = models.CharField(max_length=255, default='')
+
+    objects = models.Manager()
+    active = ImagerProfileManager()
+
     @property
     def is_active(self):
         """Create property that returns user active status."""
@@ -32,15 +45,3 @@ class ImagerProfile(models.Model):
     def __str__(self):
         """Return string of ImageProfile user's username."""
         return self.user.username
-
-    user = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                related_name='profile', null=False)
-    objects = models.Manager()
-    active = ImagerProfileManager()
-    camera = models.CharField(max_length=255)
-    friends = models.ManyToMany(settings.AUTH_USER_MODEL,
-                                related_name='friends_of')
-    photography_type = models.CharField(max_length=1,
-                                        choices=PHOTO_TYPE,
-                                        default='N')
-    location = models.CharField(max_length=255)
